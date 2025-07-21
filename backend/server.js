@@ -1,17 +1,15 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
+import todoRoutes  from './routes/todo.route.js';
 import { connectDB } from './config/db.js';
-import todoRoutes  from './routes/todo.route.js'
 
+dotenv.config();
 const app = express();
 app.use(express.json());
-dotenv.config();
+app.use(cors());
 
 const PORT = process.env.PORT || 5000;
-
-app.get("/", (req, res) => {
-    res.status(200).send("Server is running...")
-});
 
 app.use('/api/todos', todoRoutes);
 
