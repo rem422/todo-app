@@ -108,7 +108,7 @@ const deleteTodo = async (id) => {
         <div className="mt-4">
           {
             todos.length === 0 ? (
-              <div className="text-center">No Task</div>
+              <h2 className="text-center text-gray-700 font-semibold text-xl">No Task Added</h2>
             ) : (
               <div className="flex flex-col gap-4">
                 {todos.map((todo) => (
