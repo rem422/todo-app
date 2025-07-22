@@ -81,7 +81,7 @@ VITE_API_URL=http://localhost:5000/api
 
 📈 Deployment
 
-    🟢 Frontend deployed to Netlify
+    🟢 Frontend deployed to Render
 
     🔵 Backend deployed to Render
 
@@ -113,7 +113,5 @@ This project is licensed under the MIT License.
     Tailwind CSS
 
     Render
-
-    Netlify
 
     Made with 💻 by [Rem Simiyu]
