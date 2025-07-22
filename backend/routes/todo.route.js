@@ -29,20 +29,22 @@ router.post("/", async (req, res) => {
 //partially update a todo
 router.patch("/:id", async (req, res) => {
     try {
-        const todo = await Todo.findByIdAndUpdate(req.params.id);
-        if(!todo) return res.status(404).json({message: "Todo not found"});
+        const todo = await Todo.findById(req.params.id);
+        if (!todo) return res.status(404).json({ message: "Todo not found" });
 
-        if(req.body.text !== undefined && req.body.completed !== undefined) {
+        if (req.body.text !== undefined) {
             todo.text = req.body.text;
+        }
+        if (req.body.completed !== undefined) {
             todo.completed = req.body.completed;
         }
 
-        const updatedTodo = await todo.save();
-        res.json(updatedTodo);
-    } catch(err) {
-        res.status(400).json({message: err.message});
+    const updatedTodo = await todo.save();
+    res.json(updatedTodo);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
     }
-})
+});
 
 //delete update a todo
 router.delete("/:id", async (req, res) => {

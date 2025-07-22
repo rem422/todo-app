@@ -13,6 +13,7 @@ const App = () => {
   const [editingTodo, setEditingTodo] = useState(null);
   const [editedText, setEditedText] = useState("");
 
+// Create & add New Todo
   const addTodo = async (e) => {
     e.preventDefault();
     if(!newTodo.trim()) return;
@@ -26,12 +27,10 @@ const App = () => {
     }
   }
 
-// Show data from the DB
+// Show All Todos
   const fetchTodos = async () => {
     try {
       const response = await axios.get("/api/todos");
-      console.log(response.data);
-      
       setTodos(response.data);
     } catch(err) {
       console.log("Error fetching todos:", err);
@@ -48,7 +47,8 @@ const App = () => {
     setEditedText(todo.text);
   }
 
- const saveEdit = async (id) => {
+// Update a Todo
+  const saveEdit = async (id) => {
     try {
       const response = await axios.patch(`/api/todos/${id}`, {
         text: editedText,
@@ -57,6 +57,30 @@ const App = () => {
       setEditingTodo(null);
     } catch (error) {
       console.log("Error updating todo:", error);
+    }
+  };
+
+// Delete a Todo
+const deleteTodo = async (id) => {
+  try {
+    await axios.delete(`/api/todos/${id}`);
+    setTodos(todos.filter((todo) => todo._id !== id));
+  } catch(err) {
+    console.log('Error deleting todo:', err);
+    
+  }
+}
+
+//toggle todo 
+  const toggleTodo = async (id) => {
+    try {
+      const todo = todos.find((t) => t._id === id);
+      const response = await axios.patch(`/api/todos/${id}`, {
+        completed: !todo.completed,
+      });
+      setTodos(todos.map((t) => (t._id === id ? response.data : t)));
+    } catch (error) {
+      console.log("Error toggline todo:", error);
     }
   };
 
@@ -114,11 +138,14 @@ const App = () => {
                     ) : (
                       <div>
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-x-4">
-                            <button className={`h-6 w-6  border rounded-full flex items-center justify-center ${todo.completed ? "bg-green-500 border-green-500 text-white" : "border-gray-300 hover:border-blue-300"}`}>
+                          <div className="flex items-center gap-x-4 overflow-hidden">
+                            <button 
+                            onClick={() => toggleTodo(todo._id)}
+                            className={`flex-shrink-0 h-6 w-6  border rounded-full flex items-center justify-center ${todo.completed ? "bg-green-500 border-green-500 text-white" : "border-gray-300 hover:border-blue-300"}`}
+                            >
                               {todo.completed && <MdOutlineDone />}
                             </button>
-                            <span className="text-gray-800 font-medium">
+                            <span className="text-gray-800 font-medium truncate">
                               {todo.text}
                             </span>
                           </div>
@@ -129,6 +156,7 @@ const App = () => {
                                 <MdModeEditOutline />
                             </button>
                             <button
+                            onClick={() => deleteTodo(todo._id)}
                               className="p-2 text-red-500 hover:text-red-700 rounded-lg hover:bg-red-50 duration-300 cursor-pointer"
                             >
                               <FaTrash />
