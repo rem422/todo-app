@@ -24,7 +24,7 @@ This app allows users to create, read, update, and delete todos (CRUD) with a si
 | Frontend  | React, Vite, Axios, Tailwind CSS |
 | Backend   | Node.js, Express.js      |
 | Database  | MongoDB with Mongoose    |
-| Hosting   | Render (Backend), Render (Frontend)
+| Hosting   | Render (Frontend, Backend)
 
 ---
 
